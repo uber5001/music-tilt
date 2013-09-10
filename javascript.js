@@ -34,10 +34,10 @@ document.getElementById('beta').innerHTML = "beta:"+Math.round(e.beta); document
 });
 
 var chords = [
-[0,3,7],
-[10,2,5],
-[8,0,3],
-[7,11,2]
+	[0,3,7],
+	[10,2,5],
+	[8,0,3],
+	[7,11,2]
 ];
 
 var pentaScale = [0,2,4,7,9];
