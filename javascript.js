@@ -19,17 +19,13 @@ window.addEventListener('deviceorientation', function(e) {
   var beta = e.beta*Math.PI/180;
   var gamma = e.gamma*Math.PI/180;
   
-  var rx = -Math.cos(alpha)*Math.sin(gamma)-Math.sin(alpha)*Math.sin(beta)*Math.cos(gamma);
-  var ry = -Math.sin(alpha)*Math.sin(gamma)+Math.cos(alpha)*Math.sin(beta)*Math.cos(gamma);
-  var rz = -Math.cos(beta)*Math.cos(gamma);
-  
   var theta = gamma;
   var phi = beta+Math.PI/2;
   var px = Math.sin(phi)*Math.cos(theta);
   var py = Math.sin(phi)*Math.sin(theta);
   var pz = Math.cos(phi);
   
-  document.getElementById('rx').innerHTML = "px:"+px;
+  document.getElementById('rx').i=nnerHTML = "px:"+px;
   document.getElementById('ry').innerHTML = "py:"+py;
   document.getElementById('rz').innerHTML = "pz:"+pz;
   var rxyz = document.getElementById('rxyz');
@@ -37,9 +33,14 @@ window.addEventListener('deviceorientation', function(e) {
   rxyz.style.top = (-pz*90+180)+"px";
 });
 
-var pentaScale = [0,2,4,7,9];
+var chords = [
+    [0,3,7],
+    [10,2,5],
+    [8,0,3],
+    [7,11,2]
+];
 
-var cMinor = [0,3,7];
+var pentaScale = [0,2,4,7,9];
 
 function tuneMIDI(val, tuning) {
   //find the first above, and then the first below
@@ -61,8 +62,5 @@ function tuneMIDI(val, tuning) {
       i = 0;
     }
   }
-  
-  
-  
   return noteAbove;
 }
