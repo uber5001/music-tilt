@@ -3,13 +3,12 @@ var osc = context.createOscillator();
 var filter = context.createBiquadFilter();
 osc.connect(filter);
 filter.connect(context.destination);
-osc.noteOn(0);
+//osc.noteOn(0);
 window.addEventListener('deviceorientation', function(e) {
-osc.frequency.value = 440*Math.pow(2,tuneMIDI(e.gamma/8, pentaScale)/12);
-filter.frequency.value = 440*Math.pow(2, e.beta/1);
-
-
-document.getElementById('beta').innerHTML = "beta:"+Math.round(e.beta); document.getElementById('gamma').innerHTML = "gamma:"+Math.round(e.gamma);
+	//osc.frequency.value = 440*Math.pow(2,tuneMIDI(e.gamma/8, pentaScale)/12);
+	//filter.frequency.value = 440*Math.pow(2, e.beta/1);
+	
+	document.getElementById('beta').innerHTML = "beta:"+Math.round(e.beta); document.getElementById('gamma').innerHTML = "gamma:"+Math.round(e.gamma);
 	var abg = document.getElementById('abg');
 	abg.style.top = (e.beta+180)+"px";
 	abg.style.left = (e.gamma+180)+"px";
@@ -31,14 +30,36 @@ document.getElementById('beta').innerHTML = "beta:"+Math.round(e.beta); document
 	var rxyz = document.getElementById('rxyz');
 	rxyz.style.left = (py*90+180)+"px";
 	rxyz.style.top = (-pz*90+180)+"px";
+	
+	var chordNum = 0;
+	if (py < pz) chordNum += 2;
+	if (py < -pz) chordNum++;
+	playChord(chordNum, Math.sqrt(Math.pow(py,2)+Math.pow(pz,2))*4-3);
 });
 
 var chords = [
-	[0,3,7],
-	[10,2,5],
-	[8,0,3],
-	[7,11,2]
+	[0,4,7],
+	[7,11,14],
+	[5,9,12],
+	[9,12,16]
 ];
+
+var chordOscs = [context.createOscillator(),context.createOscillator(),context.createOscillator()];
+var chordFilters = [context.createBiquadFilter(),context.createBiquadFilter(),context.createBiquadFilter()]
+for (var i in chordOscs) {
+	chordOscs[i].noteOn(0);
+	chordOscs[i].type = "square";
+	chordOscs[i].connect(chordFilters[i]);
+	chordFilters[i].connect(context.destination);
+}
+
+function playChord(chordIndex, intensity) {
+	console.log(chordIndex, intensity);
+	for (var i in chordOscs) {
+		chordOscs[i].frequency.value = 440*Math.pow(2,chords[chordIndex][i]/12)
+		chordFilters[i].frequency.value = 440*Math.pow(2,intensity);
+	}
+}
 
 var pentaScale = [0,2,4,7,9];
 
