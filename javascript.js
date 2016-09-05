@@ -47,7 +47,7 @@ var chords = [
 var chordOscs = [context.createOscillator(),context.createOscillator(),context.createOscillator()];
 var chordFilters = [context.createBiquadFilter(),context.createBiquadFilter(),context.createBiquadFilter()]
 for (var i in chordOscs) {
-	chordOscs[i].noteOn(0);
+	chordOscs[i].start(0);
 	chordOscs[i].type = "square";
 	chordOscs[i].connect(chordFilters[i]);
 	chordFilters[i].connect(context.destination);
